@@ -1,63 +1,41 @@
 class Solution {
     public int balancedString(String s) {
-        int n = s.length();
-        int target = n / 4;
 
-        int[] count = new int[4];
+        int[] count = new int[128];
 
         for (char ch : s.toCharArray()) {
-            if (ch == 'Q')
-                count[0]++;
-            else if (ch == 'W')
-                count[1]++;
-            else if (ch == 'E')
-                count[2]++;
-            else if (ch == 'R')
-                count[3]++;
+            count[ch]++;
         }
 
-        if (count[0] == target &&
-                count[1] == target &&
-                count[2] == target &&
-                count[3] == target) {
+        int target = s.length() / 4;
+
+        if (count['Q'] == target &&
+            count['W'] == target &&
+            count['E'] == target &&
+            count['R'] == target) {
             return 0;
         }
 
         int left = 0;
-        int ans = n;
+        int minLen = s.length();
 
-        for (int right = 0; right < n; right++) {
+        for (int right = 0; right < s.length(); right++) {
 
-            if (s.charAt(right) == 'Q')
-                count[0]--;
-            else if (s.charAt(right) == 'W')
-                count[1]--;
-            else if (s.charAt(right) == 'E')
-                count[2]--;
-            else if (s.charAt(right) == 'R')
-                count[3]--;
+            count[s.charAt(right)]--;
 
             while (left <= right &&
-                    count[0] <= target &&
-                    count[1] <= target &&
-                    count[2] <= target &&
-                    count[3] <= target) {
+                   count['Q'] <= target &&
+                   count['W'] <= target &&
+                   count['E'] <= target &&
+                   count['R'] <= target) {
 
-                ans = Math.min(ans, right - left + 1);
+                minLen = Math.min(minLen, right - left + 1);
 
-                if (s.charAt(left) == 'Q')
-                    count[0]++;
-                else if (s.charAt(left) == 'W')
-                    count[1]++;
-                else if (s.charAt(left) == 'E')
-                    count[2]++;
-                else if (s.charAt(left) == 'R')
-                    count[3]++;
-
+                count[s.charAt(left)]++;
                 left++;
             }
         }
 
-        return ans;
+        return minLen;
     }
 }
