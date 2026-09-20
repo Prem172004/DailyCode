@@ -31,7 +31,7 @@ class Solution {
                 left++;
             }
 
-            if (count == 0 ) {
+            if (count == 0) {
                 solution.add(left);
             }
         }
